@@ -6,7 +6,6 @@ package sg.rt.oits;
 
 public abstract class Elevator {
 
-
     /**
      * 电梯识别码,固定6个字符，唯一
      */
@@ -49,5 +48,8 @@ public abstract class Elevator {
      * 电梯是否供电
      */
     protected  boolean power_supply;
-    
+
+
+    public static long collect_info_interval = 1000l;
+
 }
