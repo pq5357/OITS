@@ -66,6 +66,8 @@ public class InActivity extends AppCompatActivity {
             }
         });
 
+        addClickListener();
+
         Elevator instance = Elevator.getInstance();
         showStatus(instance);
 
@@ -107,6 +109,86 @@ public class InActivity extends AppCompatActivity {
                 break;
         }
 
+    }
 
+    /**
+     * 给控制面板上按钮添加点击监听
+     */
+    private void addClickListener() {
+
+        panelView.findViewById(R.id.btn_one).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new OperationEvent(Operation.IN_FLOOR.setFloor(1)));
+            }
+        });
+        panelView.findViewById(R.id.btn_two).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new OperationEvent(Operation.IN_FLOOR.setFloor(2)));
+            }
+        });
+        panelView.findViewById(R.id.btn_three).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new OperationEvent(Operation.IN_FLOOR.setFloor(3)));
+            }
+        });
+        panelView.findViewById(R.id.btn_four).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new OperationEvent(Operation.IN_FLOOR.setFloor(4)));
+            }
+        });
+        panelView.findViewById(R.id.btn_five).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new OperationEvent(Operation.IN_FLOOR.setFloor(5)));
+            }
+        });
+        panelView.findViewById(R.id.btn_six).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new OperationEvent(Operation.IN_FLOOR.setFloor(6)));
+            }
+        });
+        panelView.findViewById(R.id.btn_seven).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new OperationEvent(Operation.IN_FLOOR.setFloor(7)));
+            }
+        });
+        panelView.findViewById(R.id.btn_eight).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new OperationEvent(Operation.IN_FLOOR.setFloor(8)));
+            }
+        });
+        panelView.findViewById(R.id.btn_nine).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new OperationEvent(Operation.IN_FLOOR.setFloor(9)));
+            }
+        });
+        panelView.findViewById(R.id.btn_ten).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new OperationEvent(Operation.IN_FLOOR.setFloor(10)));
+            }
+        });
+
+        panelView.findViewById(R.id.btn_open).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new OperationEvent(Operation.IN_OPEN));
+            }
+        });
+
+        panelView.findViewById(R.id.btn_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new OperationEvent(Operation.IN_CLOSE));
+            }
+        });
     }
 }

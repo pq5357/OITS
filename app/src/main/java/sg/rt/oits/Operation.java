@@ -21,7 +21,7 @@ public enum Operation {
         this.content = content;
     }
 
-    public void setFloor(int floor) {
+    public Operation setFloor(int floor) {
         this.floor = floor;
     }
 }

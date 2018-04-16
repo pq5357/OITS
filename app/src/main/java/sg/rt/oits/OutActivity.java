@@ -83,7 +83,7 @@ public class OutActivity extends AppCompatActivity {
             }
         });
 
-        addClickListener();
+
 
         Elevator instance = Elevator.getInstance();
         showStatus(instance);
@@ -130,75 +130,7 @@ public class OutActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 给控制面板上按钮添加点击监听
-     */
-    private void addClickListener() {
 
-        panelView.findViewById(R.id.btn_one).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        panelView.findViewById(R.id.btn_two).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        panelView.findViewById(R.id.btn_three).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        panelView.findViewById(R.id.btn_four).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        panelView.findViewById(R.id.btn_five).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        panelView.findViewById(R.id.btn_six).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        panelView.findViewById(R.id.btn_seven).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        panelView.findViewById(R.id.btn_eight).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        panelView.findViewById(R.id.btn_nine).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        panelView.findViewById(R.id.btn_ten).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-
-
-    }
 
 
 
