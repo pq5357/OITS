@@ -18,7 +18,7 @@ public class InPanelView extends RelativeLayout{
 
         LayoutInflater.from(context).inflate(R.layout.panel_in,this,true);
 
-
-
     }
+
+
 }

@@ -9,11 +9,20 @@ import android.transition.Explode;
 import android.transition.Fade;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class InActivity extends AppCompatActivity {
+
+    private ElevatorDoorView doorInView;
+    private InPanelView panelView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +33,11 @@ public class InActivity extends AppCompatActivity {
         getWindow().setExitTransition(new Fade().setDuration(2000));
         setContentView(R.layout.activity_in);
 
-        final ElevatorDoorView doorOutView = (ElevatorDoorView) findViewById(R.id.door_out);
+        EventBus.getDefault().register(this);
+
+        doorInView = (ElevatorDoorView) findViewById(R.id.door_in);
+
+        panelView = (InPanelView) findViewById(R.id.panel_in);
 
         AppCompatButton btn_door = (AppCompatButton)findViewById(R.id.btn_door);
 
@@ -32,11 +45,12 @@ public class InActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(doorOutView.getState() == DoorView.STATE_CLOSED){
-                    doorOutView.open();
-                }else if(doorOutView.getState() == DoorView.STATE_OPENED){
-                    doorOutView.close();
+                if(doorInView.getState() == ElevatorDoorView.STATE_CLOSED){
+                    doorInView.open();
+                }else if(doorInView.getState() == ElevatorDoorView.STATE_OPENED){
+                    doorInView.close();
                 }else{
+
                 }
             }
         });
@@ -51,6 +65,48 @@ public class InActivity extends AppCompatActivity {
                         .makeSceneTransitionAnimation(InActivity.this).toBundle());
             }
         });
+
+        Elevator instance = Elevator.getInstance();
+        showStatus(instance);
+
+    }
+
+    private void showStatus(Elevator elevator) {
+        switch (elevator.getDirection()){
+            case Elevator.STOP:
+                panelView.findViewById(R.id.iv_arrow).setVisibility(View.INVISIBLE);
+                break;
+            case Elevator.UP:
+                panelView.findViewById(R.id.iv_arrow).setVisibility(View.VISIBLE);
+                ((ImageView)panelView.findViewById(R.id.iv_arrow)).setImageResource(R.drawable.arrow_up_orange);
+                break;
+            case Elevator.DOWN:
+                panelView.findViewById(R.id.iv_arrow).setVisibility(View.VISIBLE);
+                ((ImageView)panelView.findViewById(R.id.iv_arrow)).setImageResource(R.drawable.arrow_down_orange);
+                break;
+        }
+
+        ((TextView)panelView.findViewById(R.id.tv_floor)).setText(elevator.getCurrent_floor() +"");
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRereshEvent(RefreshEvent event){
+
+        int type = event.getType();
+        switch (type){
+            case RefreshEvent.REFRESH:
+                showStatus(Elevator.getInstance());
+                break;
+            case RefreshEvent.OPEN:
+                showStatus(Elevator.getInstance());
+                doorInView.open();
+
+                break;
+            case RefreshEvent.CLOSE:
+                break;
+        }
+
 
     }
 }

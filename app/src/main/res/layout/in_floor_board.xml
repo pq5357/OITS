@@ -7,16 +7,16 @@
 >
 
     <ImageView
-        android:src="@drawable/phone"
-        android:background="@drawable/in_floor_button_selector"
-        android:scaleType="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <LinearLayout
-        android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/in_floor_button_selector"
+        android:scaleType="center"
+        android:src="@drawable/phone"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
         <android.support.v7.widget.AppCompatRadioButton
@@ -165,34 +165,33 @@
         />
     </LinearLayout>
 
-    <LinearLayout
+
+    <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
-        <android.support.v7.widget.AppCompatImageButton
+
+        <android.support.v7.widget.AppCompatRadioButton
             android:id="@+id/btn_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@drawable/in_floor_button_selector"
+            android:background="@drawable/in_floor_close_selector"
             android:button="@null"
             android:gravity="center"
-            android:src="@drawable/in_floor_close_selector"
         />
 
-        <android.support.v7.widget.AppCompatImageButton
-            android:layout_marginLeft="10dp"
+        <android.support.v7.widget.AppCompatRadioButton
             android:id="@+id/btn_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/in_floor_button_selector"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/in_floor_open_selector"
             android:button="@null"
             android:gravity="center"
-            android:src="@drawable/in_floor_open_selector"
         />
-
-    </LinearLayout>
+    </RadioGroup>
 
 </LinearLayout>

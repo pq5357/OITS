@@ -6,12 +6,20 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 /**
  * Created by sg on 2018/4/12.
  */
 
-public class ElevatorDoorView extends DoorView {
+public class ElevatorDoorView extends RelativeLayout {
+
+    public static final int STATE_OPENED  = 0;
+    public static final int STATE_OPENING = 2;
+    public static final int STATE_CLOSING = 3;
+    public static final int STATE_CLOSED = 1;
+
+    protected int state;
 
     private View door_left;
 
@@ -28,10 +36,24 @@ public class ElevatorDoorView extends DoorView {
     }
 
     private void init() {
-        setState(STATE_CLOSED);
+        int door_open_status = Elevator.getInstance().getDoor_open_status();
+        setState(door_open_status);
+        if(door_open_status == Elevator.OPENED || door_open_status == Elevator.OPENING){
+            door_left.setTranslationX(-300f);
+            door_right.setTranslationX(300f);
+        }
     }
 
-    @Override
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+        Elevator.getInstance().setDoor_open_status(state);
+    }
+
+
     public void open() {
         setState(STATE_OPENING);
         ObjectAnimator translationX = new ObjectAnimator().ofFloat(door_left, "translationX", 0,
@@ -45,7 +67,6 @@ public class ElevatorDoorView extends DoorView {
         setState(STATE_OPENED);
     }
 
-    @Override
     public void close() {
         setState(STATE_CLOSING);
         ObjectAnimator translationX = new ObjectAnimator().ofFloat(door_left, "translationX",
