@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,28 +52,30 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_marginTop="10dp"
             android:id="@+id/iv_arrow"
-            android:src="@drawable/arrow_up_orange"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/arrow_up_orange"/>
         <TextView
             android:id="@+id/tv_floor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3"
-            android:textSize="25sp"
             android:textColor="@color/color_orange"
+            android:textSize="25sp"
         />
         <TextView
             android:id="@+id/tv_floor_current"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3/10"
-            android:textSize="15sp"
             android:textColor="@color/color_orange"
+            android:textSize="15sp"
         />
     </LinearLayout>
 
 
 </RelativeLayout>
+
+

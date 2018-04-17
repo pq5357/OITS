@@ -40,24 +40,12 @@ public class OutActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
 
         doorOutView = (ElevatorDoorView) findViewById(R.id.door_out);
-
         panelView = (OutPanelView) findViewById(R.id.panel_out);
-
         btn_door = (AppCompatButton)findViewById(R.id.btn_door);
-
-        btn_door.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(doorOutView.getState() == ElevatorDoorView.STATE_CLOSED){
-                    doorOutView.open();
-                }else if(doorOutView.getState() == ElevatorDoorView.STATE_OPENED){
-                    doorOutView.close();
-                }else{
-                }
-            }
-        });
-
         btn_change = (AppCompatButton)findViewById(R.id.btn_change);
+        rb_up = (RadioButton)findViewById(R.id.rb_up);
+        rb_down = (RadioButton)findViewById(R.id.rb_down);
+
         btn_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +55,6 @@ public class OutActivity extends AppCompatActivity {
             }
         });
 
-        rb_up = (RadioButton)findViewById(R.id.rb_up);
         rb_up.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -75,24 +62,40 @@ public class OutActivity extends AppCompatActivity {
                 EventBus.getDefault().post(event);
             }
         });
-        rb_down = (RadioButton)findViewById(R.id.rb_down);
+
         rb_down.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                OperationEvent event = new OperationEvent(Operation.OUT_DOWN);
+                EventBus.getDefault().post(event);
             }
         });
 
-
-
-        Elevator instance = Elevator.getInstance();
-        showStatus(instance);
+        showStatus();
     }
 
     /**
      * 根据电梯状态,刷新UI
      */
-    private void showStatus(Elevator elevator) {
+    private void showStatus() {
+        Elevator elevator = Elevator.getInstance();
+        /**
+         * 上下行按钮显示
+         */
+        int people_floor = elevator.getPeople_floor();
+        if(people_floor == 1){
+            rb_up.setVisibility(View.VISIBLE);
+            rb_down.setVisibility(View.INVISIBLE);
+        }else if(people_floor == 10){
+            rb_up.setVisibility(View.INVISIBLE);
+            rb_down.setVisibility(View.VISIBLE);
+        }else{
+            rb_up.setVisibility(View.VISIBLE);
+            rb_down.setVisibility(View.VISIBLE);
+        }
+        /**
+         * 电梯上下行方向指示
+         */
         switch (elevator.getDirection()){
             case Elevator.STOP:
                 panelView.findViewById(R.id.iv_arrow).setVisibility(View.INVISIBLE);
@@ -106,7 +109,9 @@ public class OutActivity extends AppCompatActivity {
                 ((ImageView)panelView.findViewById(R.id.iv_arrow)).setImageResource(R.drawable.arrow_down_orange);
                 break;
         }
-
+        /**
+         * 电梯楼层显示
+         */
         ((TextView)panelView.findViewById(R.id.tv_floor)).setText(elevator.getCurrent_floor() +"");
         ((TextView)panelView.findViewById(R.id.tv_floor_current)).setText(elevator
                 .getPeople_floor()+"/10");
@@ -117,11 +122,15 @@ public class OutActivity extends AppCompatActivity {
         int type = event.getType();
         switch (type){
             case RefreshEvent.REFRESH:
-                showStatus(Elevator.getInstance());
+                showStatus();
                 break;
             case RefreshEvent.OPEN:
-                showStatus(Elevator.getInstance());
-                doorOutView.open();
+                showStatus();
+                Elevator elevator = Elevator.getInstance();
+                int door_open_status = elevator.getDoor_open_status();
+                if(door_open_status == Elevator.CLOSED){
+                    doorOutView.open();
+                }
                 rb_up.setChecked(false);
                 rb_down.setChecked(false);
                 break;
@@ -129,7 +138,6 @@ public class OutActivity extends AppCompatActivity {
                 break;
         }
     }
-
 
 
 

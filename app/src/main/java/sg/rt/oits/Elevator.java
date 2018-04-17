@@ -1,19 +1,18 @@
 package sg.rt.oits;
 
-import android.content.Context;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Message;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by sg on 2018/4/13.
  */
 
-public class Elevator{
+public class Elevator {
 
     /**
      * 电梯识别码,固定6个字符，唯一
@@ -56,7 +55,7 @@ public class Elevator{
     /**
      * 电梯是否供电
      */
-    protected  boolean power_supply;
+    protected boolean power_supply;
 
     /**
      * 乘坐人当前楼层
@@ -70,7 +69,7 @@ public class Elevator{
 
     private static volatile Elevator instance = null;
 
-    public static Elevator getInstance(){
+    public static Elevator getInstance() {
         if (instance == null) {
             synchronized (Elevator.class) {
                 if (instance == null) {
@@ -102,45 +101,224 @@ public class Elevator{
 
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onOperationEvent(OperationEvent operationEvent){
+    /**
+     * 一次运行过程的目标楼层
+     */
+    private List<Integer> oneRunTargetFloors = new ArrayList<>();
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onOperationEvent(OperationEvent operationEvent) {
         Operation operation = operationEvent.getOperation();
-        EventBus.getDefault().post(new RefreshEvent(RefreshEvent.REFRESH));
-        switch (operation){
+        switch (operation) {
             case OUT_UP:
-                if(current_floor>people_floor){
-                    setDirection(DOWN);
-                    setDoor_open_status(CLOSED);
-                    while(current_floor != people_floor){
-                        try {
-                            Thread.sleep(2000l);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        current_floor--;
-                        EventBus.getDefault().post(new RefreshEvent(RefreshEvent.REFRESH));
-                    }
-                    EventBus.getDefault().post(new RefreshEvent(RefreshEvent.OPEN));
-                    setDirection(STOP);
-                }else if(current_floor<people_floor){
-
-                }else{
-
-                }
+                moveToPeople();
                 break;
             case OUT_DOWN:
+                moveToPeople();
                 break;
             case IN_FLOOR:
-                 break;
+                //多楼层被点击的处理
+                int floor = operation.getFloor();
+                //当stop状态时第一次点击决定电梯本次运行的方向
+                if(direction == STOP){
+                    oneRunTargetFloors.clear();
+                    if(floor > current_floor){
+                        direction = UP;
+                        oneRunTargetFloors.add(floor);
+                        runOnce();
+                    }else if(floor < current_floor){
+                        direction = DOWN;
+                        oneRunTargetFloors.add(floor);
+                        runOnce();
+                    }else {
+                        direction = STOP;
+                    }
+                }else{
+                    if(floor < current_floor && direction == DOWN){
+                        oneRunTargetFloors.add(floor);
+                    }else if(floor > current_floor && direction == UP){
+                        oneRunTargetFloors.add(floor);
+                    }
+                }
+                break;
             case IN_CLOSE:
+                if(direction == STOP && door_open_status == OPENED){
+                    EventBus.getDefault().post(new RefreshEvent(RefreshEvent.CLOSE));
+                }
                 break;
             case IN_OPEN:
+                if(direction == STOP && door_open_status == CLOSED){
+                    EventBus.getDefault().post(new RefreshEvent(RefreshEvent.OPEN));
+                }
                 break;
             case IN_CALL:
                 break;
         }
-        EventBus.getDefault().post(new RefreshEvent(RefreshEvent.REFRESH));
+    }
 
+    /**
+     *
+     */
+    private void runOnce() {
+        people_floor = current_floor;
+        if(direction == DOWN){
+            do {
+                try {
+                    Thread.sleep(2000l);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                current_floor--;
+                people_floor--;
+                EventBus.getDefault().post(new RefreshEvent(RefreshEvent.REFRESH));
+                if(oneRunTargetFloors.contains(current_floor)){
+                    //电梯到达
+                    EventBus.getDefault().post(new RefreshEvent(RefreshEvent.OPEN));
+                    try {
+                        Thread.sleep(5000l);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    EventBus.getDefault().post(new RefreshEvent(RefreshEvent.CLOSE));
+                    try {
+                        Thread.sleep(3000l);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }while (!isOnceRunEnd(current_floor));
+            setDirection(STOP);
+        } else if(direction == UP){
+            do{
+                try {
+                    Thread.sleep(2000l);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                current_floor++;
+                people_floor++;
+                EventBus.getDefault().post(new RefreshEvent(RefreshEvent.REFRESH));
+                if(oneRunTargetFloors.contains(current_floor)){
+                    //电梯到达
+                    EventBus.getDefault().post(new RefreshEvent(RefreshEvent.OPEN));
+                    try {
+                        Thread.sleep(5000l);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    EventBus.getDefault().post(new RefreshEvent(RefreshEvent.CLOSE));
+                    try {
+                        Thread.sleep(3000l);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }while (!isOnceRunEnd(current_floor));
+            setDirection(STOP);
+        }
+
+    }
+
+    /**
+     * 判断电梯的一次运行是否结束
+     * @return
+     * @param current_floor
+     */
+    private boolean isOnceRunEnd(int current_floor) {
+
+        Collections.sort(oneRunTargetFloors);
+        if(direction == DOWN){
+            if(current_floor == oneRunTargetFloors.get(0)){
+                return true;
+            }else{
+                return false;
+            }
+        }else if(direction == UP){
+            if(current_floor == oneRunTargetFloors.get(oneRunTargetFloors.size()-1)){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return true;
+        }
+    }
+
+    /**
+     * 电梯和人一起移动到目标楼层
+     */
+    private void moveToTarget(int targetFloor) {
+        people_floor = current_floor;
+        if(current_floor > targetFloor){
+            setDirection(DOWN);
+            setDoor_open_status(CLOSED);
+            while (current_floor != targetFloor) {
+                try {
+                    Thread.sleep(2000l);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                current_floor--;
+                people_floor --;
+                EventBus.getDefault().post(new RefreshEvent(RefreshEvent.REFRESH));
+            }
+            EventBus.getDefault().post(new RefreshEvent(RefreshEvent.OPEN));
+            setDirection(STOP);
+        } else if(current_floor < targetFloor){
+            setDirection(UP);
+            setDoor_open_status(CLOSED);
+            while (current_floor != targetFloor) {
+                try {
+                    Thread.sleep(2000l);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                current_floor++;
+                people_floor++;
+                EventBus.getDefault().post(new RefreshEvent(RefreshEvent.REFRESH));
+            }
+            EventBus.getDefault().post(new RefreshEvent(RefreshEvent.OPEN));
+            setDirection(STOP);
+        } else{
+
+        }
+    }
+
+    /**
+     * 电梯和人在同一层则直接开门，否则电梯移动到人所在楼层后开门
+     */
+    private void moveToPeople() {
+        if (current_floor > people_floor) {
+            setDirection(DOWN);
+            setDoor_open_status(CLOSED);
+            while (current_floor != people_floor) {
+                try {
+                    Thread.sleep(2000l);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                current_floor--;
+                EventBus.getDefault().post(new RefreshEvent(RefreshEvent.REFRESH));
+            }
+            EventBus.getDefault().post(new RefreshEvent(RefreshEvent.OPEN));
+            setDirection(STOP);
+        } else if (current_floor < people_floor) {
+            setDirection(UP);
+            setDoor_open_status(CLOSED);
+            while (current_floor != people_floor) {
+                try {
+                    Thread.sleep(2000l);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                current_floor++;
+                EventBus.getDefault().post(new RefreshEvent(RefreshEvent.REFRESH));
+            }
+            EventBus.getDefault().post(new RefreshEvent(RefreshEvent.OPEN));
+            setDirection(STOP);
+        } else{
+            EventBus.getDefault().post(new RefreshEvent(RefreshEvent.OPEN));
+        }
     }
 
     public String getElevator_id() {

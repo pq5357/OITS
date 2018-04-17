@@ -23,5 +23,10 @@ public enum Operation {
 
     public Operation setFloor(int floor) {
         this.floor = floor;
+        return this;
+    }
+
+    public int getFloor() {
+        return floor;
     }
 }

@@ -2,11 +2,18 @@ package sg.rt.oits;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 /**
  * Created by sg on 2018/4/12.
@@ -24,6 +31,27 @@ public class ElevatorDoorView extends RelativeLayout {
     private View door_left;
 
     private View door_right;
+
+
+    private static final int CLOSE = 1;
+    private static final int OPEN = 2;
+
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case CLOSE:
+                    close();
+                    break;
+                case OPEN:
+                    open();
+                    break;
+            }
+        }
+    };
 
     public ElevatorDoorView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -48,11 +76,27 @@ public class ElevatorDoorView extends RelativeLayout {
         return state;
     }
 
-    public void setState(int state) {
+    private int lastOpenFloor;
+
+    public void setState(final int state) {
         this.state = state;
         Elevator.getInstance().setDoor_open_status(state);
+        if(state == STATE_OPENED){
+            lastOpenFloor = Elevator.getInstance().getCurrent_floor();
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    //判断是否10s之后打开的电梯还在同一层且依旧打开
+                    if(lastOpenFloor == Elevator.getInstance().getCurrent_floor() && state == STATE_OPENED){
+                        Message message = new Message();
+                        message.what = CLOSE;
+                        handler.sendMessage(message);
+                    }
+                }
+            },10000l);
+        }
     }
-
 
     public void open() {
         setState(STATE_OPENING);
@@ -79,4 +123,5 @@ public class ElevatorDoorView extends RelativeLayout {
         animatorSet.start();
         setState(STATE_CLOSED);
     }
+
 }
