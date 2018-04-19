@@ -1,6 +1,7 @@
 package sg.rt.oits;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,41 +26,93 @@ public class InActivity extends AppCompatActivity {
 
     private ElevatorDoorView doorInView;
     private InPanelView panelView;
+    private AppCompatRadioButton btn_one;
+    private AppCompatRadioButton btn_two;
+    private AppCompatRadioButton btn_three;
+    private AppCompatRadioButton btn_four;
+    private AppCompatRadioButton btn_five;
+    private AppCompatRadioButton btn_six;
+    private AppCompatRadioButton btn_seven;
+    private AppCompatRadioButton btn_eight;
+    private AppCompatRadioButton btn_nine;
+    private AppCompatRadioButton btn_ten;
+    private AppCompatRadioButton btn_close;
+    private AppCompatRadioButton btn_open;
+
+    private AppCompatButton btn_left;
+    private AppCompatButton btn_center;
+    private AppCompatButton btn_right;
+
+    private Context mContext;
+    private AlertPopupWindow alertPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mContext = this;
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager
                 .LayoutParams.FLAG_FULLSCREEN);
         getWindow().setEnterTransition(new Fade().setDuration(2000));
         getWindow().setExitTransition(new Fade().setDuration(2000));
         setContentView(R.layout.activity_in);
 
-        EventBus.getDefault().register(this);
-
         doorInView = (ElevatorDoorView) findViewById(R.id.door_in);
-
         panelView = (InPanelView) findViewById(R.id.panel_in);
 
-        AppCompatButton btn_change = (AppCompatButton) findViewById(R.id.btn_change);
-        btn_change.setOnClickListener(new View.OnClickListener() {
+        btn_left = (AppCompatButton)findViewById(R.id.btn_left);
+        btn_center = (AppCompatButton)findViewById(R.id.btn_center);
+        btn_right = (AppCompatButton)findViewById(R.id.btn_right);
+
+
+        btn_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertPopupWindow = new AlertPopupWindow(mContext);
+            }
+        });
+
+        btn_center.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+
+        btn_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 startActivity(new Intent(InActivity.this, OutActivity.class), ActivityOptions
                         .makeSceneTransitionAnimation(InActivity.this).toBundle());
             }
         });
 
+
         addClickListener();
 
-        Elevator instance = Elevator.getInstance();
-        showStatus(instance);
+        showStatus();
 
     }
 
-    private void showStatus(Elevator elevator) {
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(alertPopupWindow != null){
+            alertPopupWindow.dismiss();
+        }
+        EventBus.getDefault().unregister(this);
+
+    }
+
+    private void showStatus() {
+        Elevator elevator = Elevator.getInstance();
         switch (elevator.getDirection()) {
             case Elevator.STOP:
                 panelView.findViewById(R.id.iv_arrow).setVisibility(View.INVISIBLE);
@@ -76,37 +129,97 @@ public class InActivity extends AppCompatActivity {
                 break;
         }
 
-        ((TextView) panelView.findViewById(R.id.tv_floor)).setText(elevator.getCurrent_floor() +
-                "");
+        ((TextView) panelView.findViewById(R.id.tv_floor)).setText(elevator.getCurrent_floor() + "");
 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshEvent(RefreshEvent event) {
-
         int type = event.getType();
         switch (type) {
             case RefreshEvent.REFRESH:
-                showStatus(Elevator.getInstance());
+                showStatus();
+                if(event.getFloor() != 0){
+                    panelView.findViewById(R.id.iv_arrow).setVisibility(View.INVISIBLE);
+                }
+                if(Elevator.getInstance().getDirection() == Elevator.STOP){
+                    resetAllButton();
+                }
                 break;
             case RefreshEvent.OPEN:
-                showStatus(Elevator.getInstance());
+                showStatus();
                 doorInView.open();
-                resetFloorBtn();
+                if(event.getFloor() != 0){
+                    resetFloorBtn(event.getFloor());
+                }
                 break;
             case RefreshEvent.CLOSE:
-                showStatus(Elevator.getInstance());
+                showStatus();
                 doorInView.close();
+                if(event.getFloor() != 0){
+                    resetFloorBtn(event.getFloor());
+                }
                 break;
-        }
 
+        }
+    }
+
+    private void resetAllButton() {
+        btn_one.setChecked(false);
+        btn_two.setChecked(false);
+        btn_three.setChecked(false);
+        btn_four.setChecked(false);
+        btn_five.setChecked(false);
+        btn_six.setChecked(false);
+        btn_seven.setChecked(false);
+        btn_eight.setChecked(false);
+        btn_nine.setChecked(false);
+        btn_ten.setChecked(false);
     }
 
     /**
      * 重置楼层按钮状态
      */
-    private void resetFloorBtn() {
+    private void resetFloorBtn(int floor) {
 
+        switch (floor){
+            case -2:
+                btn_open.setChecked(false);
+                break;
+            case -1:
+                btn_close.setChecked(false);
+                break;
+            case 1:
+                btn_one.setChecked(false);
+                break;
+            case 2:
+                btn_two.setChecked(false);
+                break;
+            case 3:
+                btn_three.setChecked(false);
+                break;
+            case 4:
+                btn_four.setChecked(false);
+                break;
+            case 5:
+                btn_five.setChecked(false);
+                break;
+            case 6:
+                btn_six.setChecked(false);
+                break;
+            case 7:
+                btn_seven.setChecked(false);
+                break;
+            case 8:
+                btn_eight.setChecked(false);
+                break;
+            case 9:
+                btn_nine.setChecked(false);
+                break;
+            case 10:
+                btn_ten.setChecked(false);
+                break;
+        }
     }
 
     /**
@@ -114,7 +227,8 @@ public class InActivity extends AppCompatActivity {
      */
     private void addClickListener() {
 
-        ((AppCompatRadioButton) panelView.findViewById(R.id.btn_one)).setOnCheckedChangeListener
+        btn_one = (AppCompatRadioButton) panelView.findViewById(R.id.btn_one);
+        btn_one.setOnCheckedChangeListener
                 (new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -123,7 +237,8 @@ public class InActivity extends AppCompatActivity {
                         }
                     }
                 });
-        ((AppCompatRadioButton) panelView.findViewById(R.id.btn_two)).setOnCheckedChangeListener
+        btn_two = (AppCompatRadioButton) panelView.findViewById(R.id.btn_two);
+        btn_two.setOnCheckedChangeListener
                 (new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -133,7 +248,8 @@ public class InActivity extends AppCompatActivity {
                         }
                     }
                 });
-        ((AppCompatRadioButton) panelView.findViewById(R.id.btn_three)).setOnCheckedChangeListener
+        btn_three = (AppCompatRadioButton) panelView.findViewById(R.id.btn_three);
+        btn_three.setOnCheckedChangeListener
                 (new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -143,7 +259,9 @@ public class InActivity extends AppCompatActivity {
                         }
                     }
                 });
-        ((AppCompatRadioButton) panelView.findViewById(R.id.btn_four)).setOnCheckedChangeListener
+        btn_four = (AppCompatRadioButton) panelView.findViewById(R.id
+                .btn_four);
+        btn_four.setOnCheckedChangeListener
                 (new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -153,7 +271,9 @@ public class InActivity extends AppCompatActivity {
                         }
                     }
                 });
-        ((AppCompatRadioButton) panelView.findViewById(R.id.btn_five)).setOnCheckedChangeListener
+        btn_five = (AppCompatRadioButton) panelView.findViewById(R.id
+                .btn_five);
+        btn_five.setOnCheckedChangeListener
                 (new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -163,7 +283,8 @@ public class InActivity extends AppCompatActivity {
                         }
                     }
                 });
-        ((AppCompatRadioButton) panelView.findViewById(R.id.btn_six)).setOnCheckedChangeListener
+        btn_six = (AppCompatRadioButton) panelView.findViewById(R.id.btn_six);
+        btn_six.setOnCheckedChangeListener
                 (new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -173,7 +294,9 @@ public class InActivity extends AppCompatActivity {
                         }
                     }
                 });
-        ((AppCompatRadioButton) panelView.findViewById(R.id.btn_seven)).setOnCheckedChangeListener
+        btn_seven = (AppCompatRadioButton) panelView.findViewById(R.id
+                .btn_seven);
+        btn_seven.setOnCheckedChangeListener
                 (new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -183,7 +306,9 @@ public class InActivity extends AppCompatActivity {
                         }
                     }
                 });
-        ((AppCompatRadioButton) panelView.findViewById(R.id.btn_eight)).setOnCheckedChangeListener
+        btn_eight = (AppCompatRadioButton) panelView.findViewById(R.id
+                .btn_eight);
+        btn_eight.setOnCheckedChangeListener
                 (new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -193,7 +318,9 @@ public class InActivity extends AppCompatActivity {
                         }
                     }
                 });
-        ((AppCompatRadioButton) panelView.findViewById(R.id.btn_nine)).setOnCheckedChangeListener
+        btn_nine = (AppCompatRadioButton) panelView.findViewById(R.id
+                .btn_nine);
+        btn_nine.setOnCheckedChangeListener
                 (new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -203,7 +330,8 @@ public class InActivity extends AppCompatActivity {
                         }
                     }
                 });
-        ((AppCompatRadioButton) panelView.findViewById(R.id.btn_ten)).setOnCheckedChangeListener
+        btn_ten = (AppCompatRadioButton) panelView.findViewById(R.id.btn_ten);
+        btn_ten.setOnCheckedChangeListener
                 (new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -213,7 +341,8 @@ public class InActivity extends AppCompatActivity {
                         }
                     }
                 });
-        ((AppCompatRadioButton) panelView.findViewById(R.id.btn_open)).setOnCheckedChangeListener
+        btn_open = (AppCompatRadioButton) panelView.findViewById(R.id.btn_open);
+        btn_open.setOnCheckedChangeListener
                 (new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -223,7 +352,8 @@ public class InActivity extends AppCompatActivity {
                     }
                 });
 
-        ((AppCompatRadioButton) panelView.findViewById(R.id.btn_close)).setOnCheckedChangeListener
+        btn_close = (AppCompatRadioButton) panelView.findViewById(R.id.btn_close);
+        btn_close.setOnCheckedChangeListener
                 (new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

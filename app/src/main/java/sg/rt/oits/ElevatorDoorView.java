@@ -1,5 +1,7 @@
 package sg.rt.oits;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
@@ -10,6 +12,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -88,10 +93,10 @@ public class ElevatorDoorView extends RelativeLayout {
                 @Override
                 public void run() {
                     //判断是否10s之后打开的电梯还在同一层且依旧打开
-                    if(lastOpenFloor == Elevator.getInstance().getCurrent_floor() && state == STATE_OPENED){
-                        Message message = new Message();
-                        message.what = CLOSE;
-                        handler.sendMessage(message);
+                    Elevator elevator = Elevator.getInstance();
+                    if(lastOpenFloor == elevator.getCurrent_floor()&& elevator.getDirection() == Elevator.STOP
+                            && elevator.getDoor_open_status() == STATE_OPENED){
+                        EventBus.getDefault().post(new RefreshEvent(RefreshEvent.CLOSE));
                     }
                 }
             },10000l);
@@ -99,7 +104,6 @@ public class ElevatorDoorView extends RelativeLayout {
     }
 
     public void open() {
-        setState(STATE_OPENING);
         ObjectAnimator translationX = new ObjectAnimator().ofFloat(door_left, "translationX", 0,
                 -300f);
         ObjectAnimator translationX1 = new ObjectAnimator().ofFloat(door_right, "translationX", 0,
@@ -108,11 +112,17 @@ public class ElevatorDoorView extends RelativeLayout {
         animatorSet.playTogether(translationX, translationX1); //设置动画
         animatorSet.setDuration(3000);  //设置动画时间
         animatorSet.start(); //启动
-        setState(STATE_OPENED);
+        setState(STATE_OPENING);
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                setState(STATE_OPENED);
+            }
+        });
     }
 
     public void close() {
-        setState(STATE_CLOSING);
         ObjectAnimator translationX = new ObjectAnimator().ofFloat(door_left, "translationX",
                 -300f, 0);
         ObjectAnimator translationX1 = new ObjectAnimator().ofFloat(door_right, "translationX",
@@ -121,7 +131,14 @@ public class ElevatorDoorView extends RelativeLayout {
         animatorSet.playTogether(translationX, translationX1); //设置动画
         animatorSet.setDuration(3000);  //设置动画时间
         animatorSet.start();
-        setState(STATE_CLOSED);
+        setState(STATE_CLOSING);
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                setState(STATE_CLOSED);
+            }
+        });
     }
 
 }

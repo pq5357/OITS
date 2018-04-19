@@ -26,25 +26,6 @@
         android:layout_height="wrap_content">
     </sg.rt.oits.ElevatorDoorView>
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_door"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="100dp"
-    />
-
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_change"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="100dp"
-        android:layout_marginBottom="100dp"
-    />
-
-
     <sg.rt.oits.OperationBarView
         android:id="@+id/operation_bar"
         android:layout_alignParentBottom="true"

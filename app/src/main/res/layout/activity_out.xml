@@ -35,24 +35,6 @@
         android:layout_toRightOf="@id/center">
     </sg.rt.oits.OutPanelView>
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_door"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="100dp"
-    />
-
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_change"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="100dp"
-        android:layout_marginRight="100dp"
-    />
-
     <sg.rt.oits.OperationBarView
         android:id="@+id/operation_bar"
         android:layout_width="wrap_content"

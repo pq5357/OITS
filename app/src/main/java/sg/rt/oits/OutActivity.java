@@ -1,15 +1,25 @@
 package sg.rt.oits;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.transition.Fade;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -23,55 +33,93 @@ import java.util.TimerTask;
 public class OutActivity extends AppCompatActivity {
 
     private ElevatorDoorView doorOutView;
-    private AppCompatButton btn_door;
-    private AppCompatButton btn_change;
     private OutPanelView panelView;
     private RadioButton rb_up;
     private RadioButton rb_down;
+    private AppCompatButton btn_left;
+    private AppCompatButton btn_center;
+    private AppCompatButton btn_right;
+
+    private Context mContext;
+    private AlertPopupWindow alertPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setEnterTransition(new Fade().setDuration(2000));
         getWindow().setExitTransition(new Fade().setDuration(2000));
         setContentView(R.layout.activity_out);
 
-        EventBus.getDefault().register(this);
-
         doorOutView = (ElevatorDoorView) findViewById(R.id.door_out);
         panelView = (OutPanelView) findViewById(R.id.panel_out);
-        btn_door = (AppCompatButton)findViewById(R.id.btn_door);
-        btn_change = (AppCompatButton)findViewById(R.id.btn_change);
         rb_up = (RadioButton)findViewById(R.id.rb_up);
         rb_down = (RadioButton)findViewById(R.id.rb_down);
+        btn_left = (AppCompatButton)findViewById(R.id.btn_left);
+        btn_center = (AppCompatButton)findViewById(R.id.btn_center);
+        btn_right = (AppCompatButton)findViewById(R.id.btn_right);
 
-        btn_change.setOnClickListener(new View.OnClickListener() {
+        btn_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertPopupWindow = new AlertPopupWindow(mContext);
+            }
+        });
+
+        btn_center.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+
+        btn_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 startActivity(new Intent(OutActivity.this, InActivity.class), ActivityOptions
                         .makeSceneTransitionAnimation(OutActivity.this).toBundle());
             }
         });
 
-        rb_up.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rb_up.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                OperationEvent event = new OperationEvent(Operation.OUT_UP);
-                EventBus.getDefault().post(event);
+                if(isChecked){
+                    OperationEvent event = new OperationEvent(Operation.OUT_UP);
+                    EventBus.getDefault().post(event);
+                }
             }
         });
 
-        rb_down.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rb_down.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                OperationEvent event = new OperationEvent(Operation.OUT_DOWN);
-                EventBus.getDefault().post(event);
+                if(isChecked){
+                    OperationEvent event = new OperationEvent(Operation.OUT_DOWN);
+                    EventBus.getDefault().post(event);
+                }
             }
         });
 
         showStatus();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(alertPopupWindow != null){
+            alertPopupWindow.dismiss();
+        }
+        EventBus.getDefault().unregister(this);
+
     }
 
     /**
@@ -135,6 +183,12 @@ public class OutActivity extends AppCompatActivity {
                 rb_down.setChecked(false);
                 break;
             case RefreshEvent.CLOSE:
+                showStatus();
+                Elevator elevator1 = Elevator.getInstance();
+                int door_open_status1 = elevator1.getDoor_open_status();
+                if(door_open_status1 == Elevator.OPENED){
+                    doorOutView.close();
+                }
                 break;
         }
     }
