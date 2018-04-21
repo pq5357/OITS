@@ -139,22 +139,29 @@ public class InActivity extends AppCompatActivity {
         switch (type) {
             case RefreshEvent.REFRESH:
                 showStatus();
-                if(event.getFloor() != 0){
+                if(event.isLastFloor()){
                     panelView.findViewById(R.id.iv_arrow).setVisibility(View.INVISIBLE);
-                }
-                if(Elevator.getInstance().getDirection() == Elevator.STOP){
                     resetAllButton();
+                }
+                if(event.getFloor() != 0){
+                    resetFloorBtn(event.getFloor());
                 }
                 break;
             case RefreshEvent.OPEN:
                 showStatus();
                 doorInView.open();
+                if(event.isLastFloor()){
+                    panelView.findViewById(R.id.iv_arrow).setVisibility(View.INVISIBLE);
+                }
                 if(event.getFloor() != 0){
                     resetFloorBtn(event.getFloor());
                 }
                 break;
             case RefreshEvent.CLOSE:
                 showStatus();
+                if(event.isLastFloor()){
+                    panelView.findViewById(R.id.iv_arrow).setVisibility(View.INVISIBLE);
+                }
                 doorInView.close();
                 if(event.getFloor() != 0){
                     resetFloorBtn(event.getFloor());

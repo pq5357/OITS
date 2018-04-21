@@ -52,6 +52,9 @@ public class OutActivity extends AppCompatActivity {
         getWindow().setExitTransition(new Fade().setDuration(2000));
         setContentView(R.layout.activity_out);
 
+        
+
+
         doorOutView = (ElevatorDoorView) findViewById(R.id.door_out);
         panelView = (OutPanelView) findViewById(R.id.panel_out);
         rb_up = (RadioButton)findViewById(R.id.rb_up);

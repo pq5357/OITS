@@ -20,139 +20,49 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal">
         <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/btn_one"
+            android:id="@+id/btn_ten"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/in_floor_button_selector"
             android:button="@null"
             android:gravity="center"
-            android:text="1"
+            android:text="10"
             android:textColor="@color/in_floor_button_text_selector"
         />
 
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/btn_two"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/in_floor_button_selector"
-            android:button="@null"
-            android:gravity="center"
-            android:text="2"
-            android:textColor="@color/in_floor_button_text_selector"
-        />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/btn_three"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/in_floor_button_selector"
-            android:button="@null"
-            android:gravity="center"
-            android:text="3"
-            android:textColor="@color/in_floor_button_text_selector"
-        />
-
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/btn_four"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/in_floor_button_selector"
-            android:button="@null"
-            android:gravity="center"
-            android:text="4"
-            android:textColor="@color/in_floor_button_text_selector"
-        />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/btn_five"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/in_floor_button_selector"
-            android:button="@null"
-            android:gravity="center"
-            android:text="5"
-            android:textColor="@color/in_floor_button_text_selector"
-        />
-
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/btn_six"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/in_floor_button_selector"
-            android:button="@null"
-            android:gravity="center"
-            android:text="6"
-            android:textColor="@color/in_floor_button_text_selector"
-        />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/btn_seven"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/in_floor_button_selector"
-            android:button="@null"
-            android:gravity="center"
-            android:text="7"
-            android:textColor="@color/in_floor_button_text_selector"
-        />
-
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/btn_eight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/in_floor_button_selector"
-            android:button="@null"
-            android:gravity="center"
-            android:text="8"
-            android:textColor="@color/in_floor_button_text_selector"
-        />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
         <android.support.v7.widget.AppCompatRadioButton
             android:id="@+id/btn_nine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/in_floor_button_selector"
             android:button="@null"
             android:gravity="center"
             android:text="9"
             android:textColor="@color/in_floor_button_text_selector"
         />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/btn_eight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/in_floor_button_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="8"
+            android:textColor="@color/in_floor_button_text_selector"
+        />
 
         <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/btn_ten"
+            android:id="@+id/btn_seven"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -160,7 +70,97 @@
             android:background="@drawable/in_floor_button_selector"
             android:button="@null"
             android:gravity="center"
-            android:text="10"
+            android:text="7"
+            android:textColor="@color/in_floor_button_text_selector"
+        />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/btn_six"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/in_floor_button_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="6"
+            android:textColor="@color/in_floor_button_text_selector"
+        />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/btn_five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/in_floor_button_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="@color/in_floor_button_text_selector"
+        />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/btn_four"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/in_floor_button_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="4"
+            android:textColor="@color/in_floor_button_text_selector"
+        />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/btn_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/in_floor_button_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="@color/in_floor_button_text_selector"
+        />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/btn_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/in_floor_button_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/in_floor_button_text_selector"
+        />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/btn_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/in_floor_button_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="1"
             android:textColor="@color/in_floor_button_text_selector"
         />
     </LinearLayout>

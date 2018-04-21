@@ -18,6 +18,8 @@ public class RefreshEvent {
      */
     private int type;
 
+    private boolean isLastFloor;
+
     /**
      * 需要操作的层数
      */
@@ -30,6 +32,16 @@ public class RefreshEvent {
     public RefreshEvent(int type, int floor) {
         this.type = type;
         this.floor = floor;
+    }
+
+    public RefreshEvent(int type, int floor, boolean isLastFloor) {
+        this.type = type;
+        this.isLastFloor = isLastFloor;
+        this.floor = floor;
+    }
+
+    public boolean isLastFloor() {
+        return isLastFloor;
     }
 
     public int getType(){
