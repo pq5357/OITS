@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.transition.Fade;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,8 +54,16 @@ public class OutActivity extends AppCompatActivity {
         getWindow().setExitTransition(new Fade().setDuration(2000));
         setContentView(R.layout.activity_out);
 
-        
 
+        DisplayMetrics dm = new DisplayMetrics();
+        WindowManager windowMgr = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
+        windowMgr.getDefaultDisplay().getMetrics(dm);
+        // 获取高度
+        int height = dm.heightPixels;
+        // 获取宽度
+        int width = dm.widthPixels;
+
+        Log.i("OTIS", height +"++++++++++++++" + width);
 
         doorOutView = (ElevatorDoorView) findViewById(R.id.door_out);
         panelView = (OutPanelView) findViewById(R.id.panel_out);
