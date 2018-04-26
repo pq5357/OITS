@@ -18,20 +18,20 @@
         android:layout_centerInParent="true"
     />
 
-    <sg.rt.oits.ElevatorDoorView
+    <sg.rt.oits.ElevatorDoorOutView
         android:id="@+id/door_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp">
-    </sg.rt.oits.ElevatorDoorView>
+        android:layout_marginTop="110dp">
+    </sg.rt.oits.ElevatorDoorOutView>
 
     <sg.rt.oits.OutPanelView
         android:id="@+id/panel_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="250dp"
+        android:layout_marginLeft="300dp"
         android:layout_toRightOf="@id/center">
     </sg.rt.oits.OutPanelView>
 

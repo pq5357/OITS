@@ -1,27 +1,19 @@
 package sg.rt.oits;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.transition.Fade;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -29,12 +21,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class OutActivity extends AppCompatActivity {
 
-    private ElevatorDoorView doorOutView;
+    private ElevatorDoorOutView doorOutView;
     private OutPanelView panelView;
     private RadioButton rb_up;
     private RadioButton rb_down;
@@ -65,7 +54,7 @@ public class OutActivity extends AppCompatActivity {
 
         Log.i("OTIS", height +"++++++++++++++" + width);
 
-        doorOutView = (ElevatorDoorView) findViewById(R.id.door_out);
+        doorOutView = (ElevatorDoorOutView) findViewById(R.id.door_out);
         panelView = (OutPanelView) findViewById(R.id.panel_out);
         rb_up = (RadioButton)findViewById(R.id.rb_up);
         rb_down = (RadioButton)findViewById(R.id.rb_down);

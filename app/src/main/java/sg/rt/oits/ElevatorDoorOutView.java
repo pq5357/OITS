@@ -24,7 +24,7 @@ import java.util.TimerTask;
  * Created by sg on 2018/4/12.
  */
 
-public class ElevatorDoorView extends RelativeLayout {
+public class ElevatorDoorOutView extends RelativeLayout {
 
     public static final int STATE_OPENED  = 0;
     public static final int STATE_OPENING = 2;
@@ -58,7 +58,7 @@ public class ElevatorDoorView extends RelativeLayout {
         }
     };
 
-    public ElevatorDoorView(Context context, AttributeSet attrs) {
+    public ElevatorDoorOutView(Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater.from(context).inflate(R.layout.door_out, this, true);
 

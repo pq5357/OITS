@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="33dp"
         android:src="@drawable/logo_outside"/>
 
 
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/iv_logo"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="23dp"
         android:background="@drawable/out_up_arrow"
         android:button="@null"
     />
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rb_up"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/out_down_arrow"
         android:button="@null"/>
 
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/iv_logo"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="23dp"
         android:layout_toRightOf="@id/center"
         android:background="@drawable/back_floor_view"
         android:gravity="center_horizontal"
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:text="3"
             android:textColor="@color/color_orange"
-            android:textSize="25sp"
+            android:textSize="28sp"
         />
         <TextView
             android:id="@+id/tv_floor_current"
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:text="3/10"
             android:textColor="@color/color_orange"
-            android:textSize="15sp"
+            android:textSize="18sp"
         />
     </LinearLayout>
 

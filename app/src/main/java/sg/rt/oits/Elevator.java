@@ -122,7 +122,7 @@ public class Elevator {
                 //多楼层被点击的处理
                 int floor = operation.getFloor();
                 //当stop状态时第一次点击决定电梯本次运行的方向
-                if (direction == STOP) {
+                if (isOnceRunEnd(current_floor)) {
                     oneRunTargetFloors.clear();
                     if (floor > current_floor) {
                         direction = UP;
@@ -193,7 +193,7 @@ public class Elevator {
                 }
                 current_floor--;
                 people_floor--;
-                if (isOnceRunEnd(current_floor)) {
+                if (direction == STOP) {
                     EventBus.getDefault().post(new RefreshEvent(RefreshEvent.REFRESH,
                             current_floor, true));
                 } else {
@@ -229,7 +229,7 @@ public class Elevator {
                 }
             }
             setDirection(STOP);
-            EventBus.getDefault().post(new RefreshEvent(RefreshEvent.REFRESH, current_floor, true));
+            EventBus.getDefault().post(new RefreshEvent(RefreshEvent.REFRESH, current_floor,true));
         } else if (direction == UP) {
             while (!isOnceRunEnd(current_floor)) {
                 EventBus.getDefault().post(new RefreshEvent(RefreshEvent.REFRESH));
@@ -276,9 +276,8 @@ public class Elevator {
                 }
             }
             setDirection(STOP);
-            EventBus.getDefault().post(new RefreshEvent(RefreshEvent.REFRESH, current_floor, true));
+            EventBus.getDefault().post(new RefreshEvent(RefreshEvent.REFRESH, current_floor,true));
         }
-
     }
 
     /**

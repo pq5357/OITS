@@ -9,17 +9,17 @@
         android:id="@+id/iv_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="23dp"
         android:src="@drawable/logo_inside"/>
     <sg.rt.oits.InStationBoardView
         android:id="@+id/in_station_board"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="17dp">
     </sg.rt.oits.InStationBoardView>
 
     <sg.rt.oits.InFloorBoard
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="14dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

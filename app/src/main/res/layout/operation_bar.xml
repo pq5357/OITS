@@ -8,13 +8,13 @@
         android:id="@+id/iv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="60dp"
         android:src="@drawable/operation_bar_background"/>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_center"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/state_ok"
+        android:background="@drawable/state_ok_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -22,7 +22,7 @@
         android:id="@+id/btn_left"
         android:layout_marginLeft="40dp"
         android:layout_alignLeft="@id/iv_back"
-        android:background="@drawable/state_exception"
+        android:background="@drawable/state_exception_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -30,7 +30,7 @@
         android:id="@+id/btn_right"
         android:layout_marginRight="40dp"
         android:layout_alignRight="@id/iv_back"
-        android:background="@drawable/state_change"
+        android:background="@drawable/state_change_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

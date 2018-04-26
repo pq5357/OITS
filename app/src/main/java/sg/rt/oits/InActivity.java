@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatRadioButton;
-import android.transition.Explode;
 import android.transition.Fade;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,12 +18,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class InActivity extends AppCompatActivity {
 
-    private ElevatorDoorView doorInView;
+    private ElevatorDoorInView doorInView;
     private InPanelView panelView;
     private AppCompatRadioButton btn_one;
     private AppCompatRadioButton btn_two;
@@ -56,7 +52,7 @@ public class InActivity extends AppCompatActivity {
         getWindow().setExitTransition(new Fade().setDuration(2000));
         setContentView(R.layout.activity_in);
 
-        doorInView = (ElevatorDoorView) findViewById(R.id.door_in);
+        doorInView = (ElevatorDoorInView) findViewById(R.id.door_in);
         panelView = (InPanelView) findViewById(R.id.panel_in);
 
         btn_left = (AppCompatButton)findViewById(R.id.btn_left);

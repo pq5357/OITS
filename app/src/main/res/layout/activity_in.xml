@@ -18,13 +18,13 @@
         android:layout_centerInParent="true"
     />
 
-    <sg.rt.oits.ElevatorDoorView
+    <sg.rt.oits.ElevatorDoorInView
         android:id="@+id/door_in"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="145dp"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    </sg.rt.oits.ElevatorDoorView>
+    </sg.rt.oits.ElevatorDoorInView>
 
     <sg.rt.oits.OperationBarView
         android:id="@+id/operation_bar"
@@ -36,9 +36,9 @@
 
     <sg.rt.oits.InPanelView
         android:id="@+id/panel_in"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="200dp"
         android:layout_toRightOf="@id/center"
-        android:layout_marginLeft="250dp"
+        android:layout_marginLeft="300dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
